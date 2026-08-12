@@ -1,8 +1,12 @@
 # Code index
 
-| File | Responsibility |
+| File/area | Exact anchors |
 | --- | --- |
-| `core.lua` | persistent settings, timer frame, timing/update loop, event registration, slash command |
-| `options.lua` | settings category, controls, apply/reset and category opening |
+| [`core.lua`](core.lua) defaults/state | `CopyDefaults`, `ParseSpellIDList`, `RecomputeSpeedsAndPeriods`, `state`, `_G.SwingBarMidnightState` |
+| [`core.lua`](core.lua) UI | `CreateBar`, `ApplyVisual`, `UpdateLayout`, `CreateMainFrame`, `SetLocked`, `SavePosition` |
+| [`core.lua`](core.lua) timing | `AnchorNow`, `CanAcceptAnchor`, `SetPaused`, updater `OnUpdate` |
+| [`core.lua`](core.lua) signals/events | `OnGlowShow`, `ScanPlayerAuras`, `OnSpellcastSucceeded`, `UpdateRangeState`, `RegisterEventsNow`, event-frame `OnEvent` |
+| [`core.lua`](core.lua) user API | `ns.ApplySettings`, `ns.ResetBarPhase`, `SlashCmdList["SWINGBARMIDNIGHT"]` |
+| [`options.lua`](options.lua) | Settings panel, widget writers, `ApplyFromUI`, category opening |
 
-Primary anchors: `CreateMainFrame`, `RecomputeSpeedsAndPeriods`, `UpdateRangeState`, `RegisterEventsNow`, and `SlashCmdList["SWINGBARMIDNIGHT"]`.
+`SwingBarMidnightDB` and the exposed `SwingBarMidnightState` are the cross-file contracts.

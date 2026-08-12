@@ -1,5 +1,7 @@
 # Architecture
 
-`core.lua` owns `SwingBarMidnightDB`, main-frame creation, visual application, timing state, an updater frame, event registration, and `/swingbar`. It has helpers for attack-speed recomputation, aura presence, range state, and phase anchoring. `options.lua` builds a scrollable configuration panel and routes Apply/reset settings into the core namespace.
+The TOC loads [`core.lua`](core.lua) before [`options.lua`](options.lua). Core owns `SwingBarMidnightDB`, cached MH/OH periods, `SwingBarMidnightFrame`, event registration, the display `OnUpdate`, and `/swingbar`; options only edits the same DB and calls `ns.ApplySettings`.
 
-The TOC loads the core before options, so options consume the runtime namespace and persisted settings established by the core.
+Timing flow is cached attack speed -> `t0MH`/`t0OH` phase -> progress/text in the updater. Overlay/aura/cast events may call `AnchorNow`, while suppression/debounce/range pause gate anchors. Combat-time event registration and protected action hooks are explicitly deferred/guarded.
+
+The debugger is a separate companion that reads the exported state table; it is not a TOC dependency of this addon.
