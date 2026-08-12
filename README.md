@@ -17,3 +17,7 @@ Use `/swingbar` to access the addon's command handler. The checked-in options mo
 ## Current development status
 
 No specific unfinished implementation items were found in this directory. The remaining documented uncertainty is live verification of swing timing, optional phase anchors/range gating, frame resizing, and options application on the target client.
+
+## License
+
+Licensed under the [MIT License](LICENSE). Bundled third-party components remain under their own notices.
