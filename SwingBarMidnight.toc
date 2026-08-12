@@ -1,0 +1,9 @@
+## Interface: 120000
+## Title: SwingBarMidnight
+## Notes: Melee swing timer for Midnight. Optional phase anchoring from SpellActivationOverlay glow, player proc auras, and optional range gating.
+## Author: Roth
+## Version: 0.8.1
+## SavedVariables: SwingBarMidnightDB
+
+core.lua
+options.lua
