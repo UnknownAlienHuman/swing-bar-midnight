@@ -1,17 +1,25 @@
-# Code graph
+# SwingBarMidnight code graph
 
 ```mermaid
 flowchart LR
-  TOC[core.lua then options.lua] --> Core[Core runtime]
-  Core --> DB[SwingBarMidnightDB]
-  DB --> Layout[Frame and visual settings]
-  Events[Combat / speed / overlay / aura / cast / range events] --> Gate[Debounce, suppression, pause]
-  Gate --> Phase[t0MH and t0OH phase]
-  Speed[Cached attack speeds] --> Phase
-  Updater[16 ms display updater] --> Phase
-  Phase --> Frame[SwingBarMidnightFrame and bars]
-  Options[options.lua Settings] --> Apply[ns.ApplySettings]
-  Apply --> DB
-  Core --> State[_G.SwingBarMidnightState]
-  State -. read only .-> Debugger[SwingBarMidnight_Debugger]
+  T["SwingBarMidnight.toc"] --> C["core.lua"]
+  T --> O["options.lua"]
+  C --> DB[("SwingBarMidnightDB v2")]
+  U["UNIT_ATTACK_SPEED player"] --> A["access-first ReadAttackSpeeds"]
+  E["PLAYER_EQUIPMENT_CHANGED"] --> A
+  A --> MH["cached MH period/status"]
+  A --> OH["cached OH period/status"]
+  MH --> P["predicted phase origins"]
+  OH --> P
+  P --> F["visible SwingBarMidnightFrame OnUpdate"]
+  F --> BM["MH predicted bar"]
+  F --> BO["optional OH predicted bar"]
+  R["manual resetphase"] --> P
+  G["PLAYER_REGEN_ENABLED"] --> AP["one deferred ApplySettings"]
+  O --> S["Blizzard vertical Settings"]
+  S --> DB
+  O --> AP
+  X["test_predicted_cadence_12_1.lua"] --> C
 ```
+
+The graph has no aura, overlay, action-slot, range, timer, combat-log, or actual-hit event. Output is prediction only.
