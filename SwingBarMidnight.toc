@@ -1,9 +1,10 @@
-## Interface: 120000
+## Interface: 120100
 ## Title: SwingBarMidnight
-## Notes: Melee swing timer for Midnight. Optional phase anchoring from SpellActivationOverlay glow, player proc auras, and optional range gating.
+## Notes: Accessible UnitAttackSpeed-based predicted MH/OH cadence for Retail 12.1; not an exact swing-hit parser.
 ## Author: Roth
-## Version: 0.8.1
+## Version: 0.9.0
 ## SavedVariables: SwingBarMidnightDB
+## X-Verified-Build: 12.1.0.69497
 
 core.lua
 options.lua
