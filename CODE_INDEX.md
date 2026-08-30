@@ -1,12 +1,18 @@
-# Code index
+# SwingBarMidnight code index
 
-| File/area | Exact anchors |
-| --- | --- |
-| [`core.lua`](core.lua) defaults/state | `CopyDefaults`, `ParseSpellIDList`, `RecomputeSpeedsAndPeriods`, `state`, `_G.SwingBarMidnightState` |
-| [`core.lua`](core.lua) UI | `CreateBar`, `ApplyVisual`, `UpdateLayout`, `CreateMainFrame`, `SetLocked`, `SavePosition` |
-| [`core.lua`](core.lua) timing | `AnchorNow`, `CanAcceptAnchor`, `SetPaused`, updater `OnUpdate` |
-| [`core.lua`](core.lua) signals/events | `OnGlowShow`, `ScanPlayerAuras`, `OnSpellcastSucceeded`, `UpdateRangeState`, `RegisterEventsNow`, event-frame `OnEvent` |
-| [`core.lua`](core.lua) user API | `ns.ApplySettings`, `ns.ResetBarPhase`, `SlashCmdList["SWINGBARMIDNIGHT"]` |
-| [`options.lua`](options.lua) | Settings panel, widget writers, `ApplyFromUI`, category opening |
+| Path | Responsibility |
+|---|---|
+| `SwingBarMidnight.toc` | Retail 12.1 metadata and definitive load order |
+| `core.lua` | Schema v2 sanitization, access-first `UnitAttackSpeed` boundary, cached MH/OH periods, prediction phase, frame/bars, visible-frame updater, events, combat-deferred apply, drag/resize and slash commands |
+| `options.lua` | Current Blizzard vertical Settings category; writes the shared DB and calls `ns.ApplySettings` |
+| `tests/test_predicted_cadence_12_1.lua` | Mocked regression for inaccessible/missing/dual speeds, no fake fallback, explicit prediction labels, manual phase reset, hidden-frame updater ownership and combat deferral |
 
-`SwingBarMidnightDB` and the exposed `SwingBarMidnightState` are the cross-file contracts.
+Removed runtime responsibilities:
+
+- aura/proc anchoring;
+- SpellActivationOverlay/action-button glow anchoring;
+- action-slot/macro/`UseAction` scanning;
+- range gating;
+- attack-spell anchoring and suppression windows;
+- harmonic combined-stream timing;
+- fake 2.0-second fallback.
