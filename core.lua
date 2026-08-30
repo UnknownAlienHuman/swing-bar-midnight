@@ -475,16 +475,10 @@ local function ShouldShow()
   return true
 end
 
-local updater = CreateFrame("Frame")
 local accumulator = 0
-updater:SetScript("OnUpdate", function(_, elapsed)
-  if not frame then return end
-  if not ShouldShow() then
-    frame:Hide()
-    return
-  end
-  frame:Show()
 
+CreateMainFrame()
+frame:SetScript("OnUpdate", function(_, elapsed)
   local elapsedNumber = SafeNumber(elapsed)
   if not elapsedNumber then return end
   accumulator = accumulator + elapsedNumber
@@ -497,8 +491,6 @@ updater:SetScript("OnUpdate", function(_, elapsed)
     UpdatePredictedBar(barOH, "OH", state.ohPeriod, state.t0OH, state.ohStatus, now)
   end
 end)
-
-CreateMainFrame()
 RecomputeSpeeds(false)
 ns.ResetBarPhase("load seed")
 UpdateLayout()
