@@ -65,18 +65,10 @@ local function newRegion(objectType, name, parent)
   function region:SetText(value) self.text = value end
   function region:SetFont(...) self.font = { ... }; return true end
   function region:SetTextColor(...) self.textColor = { ... } end
-  function region:CreateTexture()
-    return newRegion("Texture", nil, self)
-  end
-  function region:CreateFontString()
-    return newRegion("FontString", nil, self)
-  end
-  function region:RegisterEvent(event)
-    registeredEvents[event] = true
-  end
-  function region:RegisterUnitEvent(event, unit)
-    registeredUnitEvents[event] = unit
-  end
+  function region:CreateTexture() return newRegion("Texture", nil, self) end
+  function region:CreateFontString() return newRegion("FontString", nil, self) end
+  function region:RegisterEvent(event) registeredEvents[event] = true end
+  function region:RegisterUnitEvent(event, unit) registeredUnitEvents[event] = unit end
   frames[#frames + 1] = region
   if name then _G[name] = region end
   return region
@@ -98,10 +90,7 @@ UIParent = newRegion("Frame", "UIParent")
 SlashCmdList = {}
 Settings = nil
 EventUtil = nil
-
-function CreateFrame(objectType, name, parent)
-  return newRegion(objectType, name, parent)
-end
+function CreateFrame(objectType, name, parent) return newRegion(objectType, name, parent) end
 
 local ns = {}
 assert(loadfile("core.lua"))("SwingBarMidnight", ns)
@@ -122,14 +111,9 @@ assertEq(registeredUnitEvents.UNIT_ATTACK_SPEED, "player", "speed event owner")
 
 local eventFrame
 local updater
-for _, frame in ipairs(frames) do
-  if frame.scripts.OnEvent and frame.events == nil then
-    -- event ownership is identified by the RegisterEvent side effects below.
-  end
-  if frame.scripts.OnUpdate then updater = frame end
-end
-for _, frame in ipairs(frames) do
-  if frame.scripts.OnEvent and frame ~= updater then eventFrame = frame end
+for _, candidate in ipairs(frames) do
+  if candidate.scripts.OnUpdate then updater = candidate end
+  if candidate.scripts.OnEvent then eventFrame = candidate end
 end
 assert(eventFrame, "event frame missing")
 assert(updater, "visual updater missing")
@@ -146,7 +130,7 @@ SwingBarMidnightDB.showOnlyInCombat = false
 SwingBarMidnightDB.text = true
 ns.ApplySettings()
 updater.scripts.OnUpdate(updater, 0.03)
-assert(barMH.text:match("MH predicted"), "MH text must disclose prediction")
+assert(barMH.text.text:match("MH predicted"), "MH text must disclose prediction")
 
 SwingBarMidnightDB.showOffhand = true
 speedMode = "dual"
@@ -181,6 +165,6 @@ now = 130
 eventFrame.scripts.OnEvent(eventFrame, "UNIT_ATTACK_SPEED", "player")
 assertEq(state.mhPeriod, nil, "secret transition reused stale MH speed")
 updater.scripts.OnUpdate(updater, 0.03)
-assert(barMH.text:match("unavailable"), "unavailable speed must be visible")
+assert(barMH.text.text:match("inaccessible"), "inaccessible speed must be visible")
 
 print("PASS: inaccessible speeds never receive a fake fallback; MH/OH cadence is explicitly predicted and settings defer in combat")
