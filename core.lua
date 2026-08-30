@@ -364,7 +364,11 @@ local function SetLocked(locked)
   end
   frame:EnableMouse(not DB.locked)
   frame:SetMovable(not DB.locked)
-  frame:RegisterForDrag(DB.locked and nil or "LeftButton")
+  if DB.locked then
+    frame:RegisterForDrag()
+  else
+    frame:RegisterForDrag("LeftButton")
+  end
   frame.resizer:SetShown(not DB.locked)
   frame.moverOverlay:SetShown(not DB.locked)
 end
